@@ -1,5 +1,13 @@
 # @cloudflare/workers-utils
 
+## 0.44.0
+
+### Minor Changes
+
+- [#15658](https://github.com/cloudflare/workers-sdk/pull/15658) [`8280086`](https://github.com/cloudflare/workers-sdk/commit/8280086df5571607ab614fa09684c2d78fcdd58b) Thanks [@jqmmes](https://github.com/jqmmes)! - Add Durable Objects code update strategies to Worker deployments
+
+  Use `--durable-objects-code-update-mode immediate` with `wrangler deploy`, `wrangler versions deploy`, and `wrangler rollback` to update code without waiting for active instances to hibernate. Use `--durable-objects-code-update-mode deferred 30s` to set a maximum delay, or configure `durable_objects.code_update_strategy` with `mode` and `max_delay`. When unset, the strategy defaults to deferred with a 5-minute maximum delay; delays cannot exceed 24 hours and must use millisecond precision.
+
 ## 0.43.0
 
 ### Minor Changes
