@@ -104,7 +104,7 @@ describe("codemod runner", () => {
 		});
 		expect(excludedResult).toMatchObject({
 			changedFiles: [],
-			message: "wrangler.jsonc is excluded by --files.",
+			message: "wrangler.jsonc does not match any --files pattern.",
 			status: "skipped",
 		});
 		await expect(
@@ -140,7 +140,7 @@ describe("codemod runner", () => {
 
 		expect(result).toMatchObject({
 			changedFiles: [],
-			message: "wrangler.jsonc is excluded by --files.",
+			message: "wrangler.jsonc does not match any --files pattern.",
 			status: "skipped",
 		});
 		await expect(
