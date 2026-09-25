@@ -96,6 +96,15 @@ const TOOLING_FIELDS = new Set([
 	"wasm_modules",
 ]);
 
+const TOP_LEVEL_ONLY_TOOLING_FIELDS = new Set([
+	"alias",
+	"data_blobs",
+	"dev",
+	"send_metrics",
+	"text_blobs",
+	"wasm_modules",
+]);
+
 export const KNOWN_FIELDS = new Set([
 	"$schema",
 	"access",
@@ -230,6 +239,19 @@ function createPreviewSource(
 	delete merged.previews;
 
 	return merged;
+}
+
+function createToolingEnvironmentSource(
+	base: UnknownRecord,
+	overrides: UnknownRecord,
+	environmentName: string
+): UnknownRecord {
+	const environmentOverrides = { ...overrides };
+	for (const field of TOP_LEVEL_ONLY_TOOLING_FIELDS) {
+		delete environmentOverrides[field];
+	}
+
+	return createBranchSource(base, environmentOverrides, environmentName);
 }
 
 function addUnknownFieldFollowUps(
@@ -573,7 +595,9 @@ export function convertWranglerConfig(
 			)
 		);
 		if (isWranglerBundle) {
-			const tooling = convertToolingBranch(environmentSource);
+			const tooling = convertToolingBranch(
+				createToolingEnvironmentSource(source, value, name)
+			);
 			if (tooling || toolingBase) {
 				toolingEnvironments.set(
 					name,
